@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ujian Informatika | CBT Neon</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'], display: ['Orbitron', 'sans-serif'] },
+                    colors: { neon: { cyan: '#0ff', pink: '#f0f', purple: '#b026ff' } }
+                }
+            }
+        }
+    </script>
+
+    <!-- MathJax for Math equations -->
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+            startup: { typeset: false }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+    <!-- Load Bank Soal -->
+    <script src="soal_kelas7.js"></script>
+    <script src="soal_kelas8.js"></script>
+    <script src="soal_kelas9.js"></script>
+
+    <style>
+        body { background: #0a0a12; color: #e2e8f0; }
+        .glass-panel {
+            background: rgba(20, 20, 35, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+        }
+        .neon-text { text-shadow: 0 0 5px theme('colors.neon.cyan'), 0 0 10px theme('colors.neon.cyan'); }
+        .neon-border { border-color: theme('colors.neon.cyan'); box-shadow: 0 0 10px theme('colors.neon.cyan'), inset 0 0 5px theme('colors.neon.cyan'); }
+        .neon-btn { transition: all 0.3s ease; }
+        .neon-btn:hover { box-shadow: 0 0 15px theme('colors.neon.cyan'), 0 0 30px theme('colors.neon.cyan'); background-color: theme('colors.neon.cyan'); color: #000; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(0, 255, 255, 0.3); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: rgba(0, 255, 255, 0.6); }
+    </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden">
+    
+    <!-- Background Particles -->
+    <div id="particles-js" class="fixed inset-0 z-0 pointer-events-none opacity-60"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto p-4 md:p-8 flex flex-col min-h-screen justify-center">
+        
+        <!-- DASHBOARD (FORM LOGIN) -->
+        <div id="dashboard-screen" class="glass-panel p-8 md:p-12 rounded-3xl w-full max-w-2xl mx-auto transform transition-all duration-500">
+            <div class="text-center mb-10">
+                <h1 class="text-4xl md:text-5xl font-display font-bold text-neon-cyan neon-text mb-2">CBT INFORMATIKA</h1>
+                <p class="text-sm text-gray-400">Silakan login untuk memulai ujian</p>
+            </div>
+            
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-bold text-gray-300 mb-2">Nama Lengkap</label>
+                    <input type="text" id="input-nama" placeholder="Masukkan nama lengkap Anda..." class="w-full bg-black/50 border border-gray-600 focus:border-neon-cyan focus:ring-1 focus:ring-neon-cyan rounded-xl p-4 text-white placeholder-gray-500 outline-none transition uppercase">
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-300 mb-2">Pilih Kelas</label>
+                        <select id="select-kelas" class="w-full bg-black/50 border border-gray-600 focus:border-neon-cyan rounded-xl p-4 text-white outline-none">
+                            <option value="">-- Kelas --</option>
+                            <option value="7a">7A</option><option value="7b">7B</option><option value="7c">7C</option><option value="7d">7D</option><option value="7e">7E</option>
+                            <option value="8a">8A</option><option value="8b">8B</option><option value="8c">8C</option><option value="8d">8D</option><option value="8e">8E</option>
+                            <option value="9a">9A</option><option value="9b">9B</option><option value="9c">9C</option><option value="9d">9D</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-300 mb-2">Jenis Ujian</label>
+                        <select id="select-ujian" class="w-full bg-black/50 border border-gray-600 focus:border-neon-cyan rounded-xl p-4 text-white outline-none">
+                            <option value="">-- Ujian --</option>
+                            <option value="Pertemuan 1">Pertemuan 1</option><option value="Pertemuan 2">Pertemuan 2</option><option value="Pertemuan 3">Pertemuan 3</option>
+                            <option value="Pertemuan 4">Pertemuan 4</option><option value="Pertemuan 5">Pertemuan 5</option><option value="Pertemuan 6">Pertemuan 6</option>
+                            <option value="Pertemuan 7">Pertemuan 7</option><option value="Ujian STS">Ujian STS</option><option value="Ujian SAS">Ujian SAS</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <button onclick="mulaiUjian()" class="w-full border border-neon-cyan text-neon-cyan font-bold font-display tracking-wider py-4 rounded-xl neon-btn text-lg">MULAI UJIAN</button>
+                </div>
+                
+                <div id="error-msg" class="hidden text-red-400 text-center font-bold text-sm mt-4 bg-red-900/30 py-2 rounded-lg border border-red-500/50"></div>
+            </div>
+        </div>
+
+        <!-- UJIAN SCREEN -->
+        <div id="ujian-screen" class="hidden w-full flex flex-col lg:flex-row gap-6">
+            <!-- Navigasi Panel -->
+            <div class="lg:w-1/4">
+                <div class="glass-panel p-5 rounded-2xl sticky top-6">
+                    
+                    <!-- Tombol Kembali -->
+                    <button onclick="kembaliKeDashboard()" class="w-full flex items-center justify-center gap-2 mb-6 bg-red-900/30 hover:bg-red-800/60 text-red-400 font-bold py-3 px-4 rounded-xl border border-red-500/50 transition shadow-sm text-sm">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        Batal & Kembali
+                    </button>
+
+                    <div class="text-center mb-4 border-b border-gray-700 pb-4">
+                        <h3 class="text-neon-cyan font-display font-bold neon-text" id="display-nama">NAMA USER</h3>
+                        <p class="text-xs text-gray-400 mt-1" id="display-info">Kelas - Ujian</p>
+                    </div>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest text-center mb-3 font-bold">Navigasi Soal</p>
+                    
+                    <div id="nav-panel" class="grid grid-cols-5 md:grid-cols-8 lg:grid-cols-4 gap-2 max-h-[40vh] overflow-y-auto custom-scrollbar pr-1"></div>
+                </div>
+            </div>
+
+            <!-- Kontainer Soal -->
+            <div class="lg:w-3/4 flex flex-col">
+                <div class="glass-panel p-6 md:p-8 rounded-3xl mb-6 relative flex-grow">
+                    <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-700">
+                        <span class="bg-neon-cyan/20 border border-neon-cyan text-neon-cyan py-1 px-4 rounded-full text-sm font-bold">Soal <span id="current-q-num">1</span> / <span id="total-q">0</span></span>
+                        <span class="text-xs text-gray-400 italic">25 Soal Acak (Randomized)</span>
+                    </div>
+
+                    <div id="q-image-container" class="mb-6 hidden flex justify-center">
+                        <img id="q-image" src="" alt="Gambar Soal" class="max-w-full max-h-64 object-contain rounded-xl border border-gray-600 shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                    </div>
+                    
+                    <div id="q-text" class="text-lg md:text-xl font-medium mb-8 leading-relaxed text-gray-100"></div>
+                    <div id="q-options" class="flex flex-col gap-4"></div>
+                </div>
+
+                <!-- Aksi -->
+                <div class="flex justify-between items-center">
+                    <button id="btn-prev" onclick="ubahSoal(-1)" class="bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white font-bold py-3 px-6 rounded-xl transition">Kembali</button>
+                    <button id="btn-next" onclick="ubahSoal(1)" class="bg-indigo-600 hover:bg-indigo-500 border border-indigo-400 text-white font-bold py-3 px-8 rounded-xl transition shadow-[0_0_15px_rgba(79,70,229,0.5)]">Selanjutnya</button>
+                    <button id="btn-submit" onclick="kirimUjian()" class="hidden border border-neon-cyan text-neon-cyan font-bold py-3 px-8 rounded-xl neon-btn">Kirim Jawaban</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUCCESS SCREEN -->
+        <div id="success-screen" class="hidden glass-panel p-8 md:p-12 rounded-3xl w-full max-w-xl mx-auto text-center">
+            <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-green-500/20 border-2 border-green-400 mb-6 shadow-[0_0_30px_rgba(74,222,128,0.4)]">
+                <svg class="w-12 h-12 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <h2 class="text-3xl font-display font-bold text-white mb-2">Ujian Selesai!</h2>
+            <p class="text-gray-400 mb-8">Terima kasih, jawaban Anda telah berhasil direkam ke dalam sistem. Akses untuk ujian ini telah dikunci untuk akun Anda.</p>
+            <button onclick="location.reload()" class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-xl transition border border-gray-600">Kembali ke Beranda</button>
+        </div>
+        
+        <!-- LOADING OVERLAY -->
+        <div id="loading-overlay" class="hidden fixed inset-0 bg-black/80 z-50 flex flex-col items-center justify-center backdrop-blur-sm">
+            <div class="w-16 h-16 border-4 border-gray-700 border-t-neon-cyan rounded-full animate-spin shadow-[0_0_15px_rgba(0,255,255,0.5)] mb-4"></div>
+            <p class="text-neon-cyan font-display animate-pulse">Menyimpan Data...</p>
+        </div>
+
+    </div>
+
+    <script>
+        // INISIALISASI PARTICLES BACKGROUND
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 60, density: { enable: true, value_area: 800 } },
+                color: { value: ["#0ff", "#f0f", "#b026ff"] },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: "#0ff", opacity: 0.2, width: 1 },
+                move: { enable: true, speed: 1.5, direction: "none", random: true, straight: false, out_mode: "out", bounce: false }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: { onhover: { enable: true, mode: "grab" }, resize: true },
+                modes: { grab: { distance: 200, line_linked: { opacity: 0.5 } } }
+            },
+            retina_detect: true
+        });
+
+        // ================= GANTI URL INI =================
+        const GOOGLE_APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz1XnVolhVA6uoirGqLlm8QORTtkcBeK42swHSok-DBAoMctW2rRPKVWfW14tZRQj23/exec';
+        // ==================================================
+
+        let currentSoalData = [];
+        let currentIndex = 0;
+        let userAnswers = [];
+        let identitas = {};
+
+        function showError(msg) {
+            const errDiv = document.getElementById('error-msg');
+            errDiv.innerText = msg;
+            errDiv.classList.remove('hidden');
+            setTimeout(() => errDiv.classList.add('hidden'), 4000);
+        }
+
+        // FUNGSI ACAK SOAL YANG DIPERBAIKI (Fisher-Yates murni + Deduplikasi)
+        function getAcakSoal(bankSoal, jumlahMaksimal) {
+            // 1. Buang soal duplikat (jika ada) menggunakan Map berdasarkan Teks Soal / ID Soal
+            const mapUnik = new Map();
+            const soalUnik = [];
+            for (const soal of bankSoal) {
+                const key = soal.id || soal.teks; // Pakai ID jika ada, jika tidak pakai teksnya
+                if (!mapUnik.has(key)) {
+                    mapUnik.set(key, true);
+                    soalUnik.push(soal);
+                }
+            }
+
+            // 2. Acak menggunakan Fisher-Yates Array murni
+            let currentIndex = soalUnik.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                // Tukar posisi elemen
+                [soalUnik[currentIndex], soalUnik[randomIndex]] = [soalUnik[randomIndex], soalUnik[currentIndex]];
+            }
+
+            // 3. Potong hanya sejumlah yang diinginkan (contoh: 25)
+            return soalUnik.slice(0, jumlahMaksimal);
+        }
+
+        function kembaliKeDashboard() {
+            if(confirm("Yakin ingin membatalkan? Semua jawaban sementara untuk ujian ini akan hilang dan Anda akan dikembalikan ke Menu Awal.")) {
+                document.getElementById('ujian-screen').classList.add('hidden');
+                document.getElementById('dashboard-screen').classList.remove('hidden');
+            }
+        }
+
+        function mulaiUjian() {
+            const nama = document.getElementById('input-nama').value.trim().toUpperCase();
+            const kelas = document.getElementById('select-kelas').value;
+            const jenisUjian = document.getElementById('select-ujian').value;
+
+            if (!nama || !kelas || !jenisUjian) {
+                showError("Semua kolom (Nama, Kelas, Ujian) wajib diisi!");
+                return;
+            }
+
+            const lockKey = `cbt_locked_${nama.replace(/\s+/g,'_')}_${kelas}_${jenisUjian.replace(/\s+/g,'_')}`;
+            if (localStorage.getItem(lockKey)) {
+                showError("Akses Ditolak! Anda sudah menyelesaikan ujian ini.");
+                return;
+            }
+
+            let bankTerpilih;
+            if (kelas.startsWith('7')) bankTerpilih = typeof bankSoalKelas7 !== 'undefined' ? bankSoalKelas7[jenisUjian] : null;
+            else if (kelas.startsWith('8')) bankTerpilih = typeof bankSoalKelas8 !== 'undefined' ? bankSoalKelas8[jenisUjian] : null;
+            else if (kelas.startsWith('9')) bankTerpilih = typeof bankSoalKelas9 !== 'undefined' ? bankSoalKelas9[jenisUjian] : null;
+
+            if (!bankTerpilih || bankTerpilih.length === 0) {
+                showError("Maaf, soal untuk ujian ini belum tersedia di bank soal.");
+                return;
+            }
+
+            // AMBIL 25 SOAL SECARA ACAK DARI ALGORITMA BARU
+            currentSoalData = getAcakSoal(bankTerpilih, 25);
+
+            identitas = { nama, kelas: kelas.toUpperCase(), jenisUjian, lockKey };
+            userAnswers = new Array(currentSoalData.length).fill(null);
+            currentIndex = 0;
+            
+            document.getElementById('display-nama').innerText = identitas.nama;
+            document.getElementById('display-info').innerText = `${identitas.kelas} - ${identitas.jenisUjian}`;
+            document.getElementById('total-q').innerText = currentSoalData.length;
+
+            document.getElementById('dashboard-screen').classList.add('hidden');
+            document.getElementById('ujian-screen').classList.remove('hidden');
+            
+            buildNavPanel();
+            tampilkanSoal();
+        }
+
+        function renderMath() {
+            if (window.MathJax && MathJax.typesetPromise) {
+                MathJax.typesetPromise().catch((err) => console.log('MathJax Error:', err.message));
+            }
+        }
+
+        function buildNavPanel() {
+            const nav = document.getElementById('nav-panel');
+            nav.innerHTML = '';
+            currentSoalData.forEach((_, i) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full aspect-square rounded-lg font-bold text-sm transition duration-300 flex items-center justify-center border`;
+                btn.innerText = i + 1;
+                btn.id = `nav-btn-${i}`;
+                btn.onclick = () => { currentIndex = i; tampilkanSoal(); };
+                nav.appendChild(btn);
+            });
+        }
+
+        function updateNavActive() {
+            for (let i = 0; i < currentSoalData.length; i++) {
+                const btn = document.getElementById(`nav-btn-${i}`);
+                if (!btn) continue;
+                
+                btn.className = `w-full aspect-square rounded-lg font-bold text-sm transition duration-300 flex items-center justify-center border `;
+                
+                if (i === currentIndex) {
+                    btn.classList.add('ring-2', 'ring-white', 'scale-105', 'relative', 'z-10');
+                }
+                
+                if (userAnswers[i] !== null) {
+                    btn.classList.add('bg-neon-cyan', 'text-black', 'border-neon-cyan', 'shadow-[0_0_10px_rgba(0,255,255,0.6)]');
+                } else {
+                    btn.classList.add('bg-gray-800/50', 'text-gray-400', 'border-gray-700', 'hover:bg-gray-700');
+                }
+            }
+        }
+
+        function ubahSoal(step) {
+            currentIndex += step;
+            tampilkanSoal();
+        }
+
+        function tampilkanSoal() {
+            document.getElementById('current-q-num').innerText = currentIndex + 1;
+            const soal = currentSoalData[currentIndex];
+            
+            const imgContainer = document.getElementById('q-image-container');
+            const imgEl = document.getElementById('q-image');
+            if (soal.gambar && soal.gambar.trim() !== "") {
+                imgEl.src = soal.gambar;
+                imgContainer.classList.remove('hidden');
+            } else {
+                imgContainer.classList.add('hidden');
+            }
+
+            document.getElementById('q-text').innerHTML = soal.teks;
+            
+            const optionsContainer = document.getElementById('q-options');
+            optionsContainer.innerHTML = '';
+            
+            const abjad = ['A', 'B', 'C', 'D'];
+            soal.opsi.forEach((opt, idx) => {
+                const isSelected = userAnswers[currentIndex] === idx;
+                const div = document.createElement('div');
+                div.className = `group flex items-center p-4 rounded-xl border transition-all duration-300 cursor-pointer ${
+                    isSelected ? 'neon-border bg-neon-cyan/10' : 'border-gray-700 bg-gray-800/40 hover:border-gray-500 hover:bg-gray-700/60'
+                }`;
+                div.onclick = () => { userAnswers[currentIndex] = idx; tampilkanSoal(); };
+                
+                div.innerHTML = `
+                    <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full font-bold mr-4 transition-colors ${
+                        isSelected ? 'bg-neon-cyan text-black shadow-[0_0_10px_#0ff]' : 'bg-gray-700 text-gray-300 group-hover:text-white'
+                    }">${abjad[idx]}</div>
+                    <div class="flex-grow ${isSelected ? 'text-white' : 'text-gray-300'}">${opt}</div>
+                `;
+                optionsContainer.appendChild(div);
+            });
+
+            document.getElementById('btn-prev').style.visibility = currentIndex === 0 ? 'hidden' : 'visible';
+            if (currentIndex === currentSoalData.length - 1) {
+                document.getElementById('btn-next').classList.add('hidden');
+                document.getElementById('btn-submit').classList.remove('hidden');
+            } else {
+                document.getElementById('btn-next').classList.remove('hidden');
+                document.getElementById('btn-submit').classList.add('hidden');
+            }
+
+            updateNavActive();
+            renderMath();
+            
+            const activeBtn = document.getElementById(`nav-btn-${currentIndex}`);
+            if (activeBtn) activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        async function kirimUjian() {
+            const belumDijawab = userAnswers.filter(ans => ans === null).length;
+            if (belumDijawab > 0) {
+                if(!confirm(`Ada ${belumDijawab} soal yang belum dijawab. Yakin ingin mengumpulkan sekarang?`)) return;
+            } else {
+                if(!confirm("Anda yakin ingin mengirimkan jawaban? Pilihan Anda tidak dapat diubah setelah ini.")) return;
+            }
+
+            document.getElementById('loading-overlay').classList.remove('hidden');
+
+            let benar = 0;
+            let jawabanStringArr = [];
+            const abjad = ['A', 'B', 'C', 'D'];
+
+            currentSoalData.forEach((soal, i) => {
+                const ans = userAnswers[i];
+                if (ans === soal.jawaban) benar++;
+                
+                const originalId = soal.id ? `(ID:${soal.id})` : "";
+                const charJawaban = (ans !== null) ? abjad[ans] : "Kosong";
+                jawabanStringArr.push(`No.${i+1}${originalId}:${charJawaban}`);
+            });
+
+            const nilaiAkhir = Math.round((benar / currentSoalData.length) * 100);
+            const butirJawaban = jawabanStringArr.join(", ");
+
+            const payload = {
+                kelas: identitas.kelas,
+                jenis_ujian: identitas.jenisUjian,
+                nama: identitas.nama,
+                jawaban_santri: butirJawaban,
+                nilai: nilaiAkhir
+            };
+
+            try {
+                const response = await fetch(GOOGLE_APP_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                localStorage.setItem(identitas.lockKey, 'true');
+                document.getElementById('loading-overlay').classList.add('hidden');
+                document.getElementById('ujian-screen').classList.add('hidden');
+                document.getElementById('success-screen').classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('loading-overlay').classList.add('hidden');
+                alert("Terjadi kesalahan jaringan saat mengirim data. Pastikan internet stabil dan coba lagi.");
+            }
+        }
+    </script>
+</body>
+</html>
